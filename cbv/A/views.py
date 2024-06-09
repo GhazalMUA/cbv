@@ -5,7 +5,7 @@ from django.views import View
 from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic.list import ListView
 from .models import Car,Kelas
-
+from django.views.generic import DetailView
 '''
     class View chandta method dare mesle http_not_allowed() , setup() , dispatch() , option()     
     option() baraye neshoon dadae header hast 
@@ -100,12 +100,19 @@ class KelasList(ListView):
     model = Kelas
     context_object_name = 'Kelasha'         #esme ekhtesasie contex i k mikhaym befrestim b html
     ordering ='name'
-    queryset = Kelas.objects.filter(price__gt='3000')
+    queryset = Kelas.objects.all()
     
     
     
     
     
-    
-
-        
+'''
+    DetailView ya bar asase primery key ya bar asase dlug mire etelaato mikhone miare va faghat yedone object ro barmigardoone.
+'''    
+class KelasDetail(DetailView):  
+    model=Kelas
+    context_object_name = 'joziat_kelas'
+    template_name = 'kelasdetail.html'
+    pk_url_kwarg = "pk"
+    # slug_url_kwarg = "slug"
+    # pk_url_kwarg = "pk"

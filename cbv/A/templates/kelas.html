@@ -1,7 +1,6 @@
 <p>be name khoda</p>
 
 {% for kelas in Kelasha %}
-{{kelas.name}}<br>
-{{kelas.coach}}<br>
-{{kelas.price}}<br>
+<a href="{% url 'cbv:kelas_detail' kelas.id %}">{{ kelas.name }} {{ kelas.coach }}</a><br>
+
 {%endfor%}
