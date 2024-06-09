@@ -1,9 +1,10 @@
 from typing import Any
 from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import render
-from django.views import View
+from django.views import View 
 from django.views.generic.base import TemplateView, RedirectView
-from .models import Car
+from django.views.generic.list import ListView
+from .models import Car,Kelas
 
 '''
     class View chandta method dare mesle http_not_allowed() , setup() , dispatch() , option()     
@@ -65,14 +66,6 @@ class ghazal(View):
 
 
 
-
-
-
-
-
-
-
-
 class Home(TemplateView):
     template_name='home.html'       #age kheili sade faghat mikhayd safeye html i neshon bedid az yek khat kod faghat estefade konid.
    
@@ -89,8 +82,30 @@ class Home(TemplateView):
         context['cars'] = Car.objects.all()
         return context
     
-    
+
+
+
+
+#inja in class ro be url two vasl kardam. vaghti rooye barname mirim be url two, redirect mishe be safeye gooogle.com    
 class Two(RedirectView):
     url = 'https://google.com'
+#age bekhaym az namespaceha estefade konim bayad az patterm_name estefade konim bejaye line bala; intori    pattern_name='home:home'
+    
+    
+    
+    
+    
+class KelasList(ListView):
+    template_name='kelas.html'
+    model = Kelas
+    context_object_name = 'Kelasha'         #esme ekhtesasie contex i k mikhaym befrestim b html
+    ordering ='name'
+    queryset = Kelas.objects.filter(price__gt='3000')
+    
+    
+    
+    
+    
+    
 
         
