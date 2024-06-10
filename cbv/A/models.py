@@ -18,3 +18,14 @@ class Kelas(models.Model):
     
     def __str__(self):
         return self.name
+    
+ 
+ 
+class Food(models.Model):
+    name= models.CharField(max_length=100)
+    preparing_time=models.CharField(max_length=100)
+    cost=models.CharField(max_length=100)
+    final_price=models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.name

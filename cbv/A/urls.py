@@ -9,4 +9,5 @@ urlpatterns = [
     path('list_kelasha/' , views.KelasList.as_view()),
     path('<int:pk>/' , views.KelasDetail.as_view() , name='kelas_detail'),
     path('form_kelas' , views.FormKelasView.as_view()),
+    path('createfoodform/',views.FoodFormView.as_view())
 ]

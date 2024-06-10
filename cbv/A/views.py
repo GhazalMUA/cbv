@@ -4,8 +4,8 @@ from django.shortcuts import render
 from django.views import View 
 from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic.list import ListView
-from .models import Car,Kelas
-from django.views.generic import DetailView , FormView
+from .models import Car,Kelas,Food
+from django.views.generic import DetailView , FormView , CreateView
 from .forms import KelasForm
 from django.urls import reverse_lazy
 
@@ -137,12 +137,29 @@ class KelasDetail(DetailView):
 
 class FormKelasView(FormView):
     form_class = KelasForm
-    success_url=reverse_lazy('cbv:roott')
+    success_url=reverse_lazy('cbv:roott')         # This is the URL to redirect to after the form is successfully submitted and processed. reverse_lazy is used to resolve the URL.
     template_name='form.html'
     
-    # def form_valid(self,form):
-    #     self._create_new_kelas(data=form.cleaned_data)
-    #     return super().form_valid(form)
+    '''
+        form_valid Method: This method is called when the submitted form is valid (i.e., it has passed all validations).
+        Inside this method, self._create_new_kelas(data=form.cleaned_data) is called to create a new Kelas object with the cleaned data from the form.
+        After creating the new Kelas object, it calls the parent class’s form_valid method to handle the standard behavior (like redirecting to the success URL).
+    '''
+    def form_valid(self,form):
+        self._create_new_kelas(data=form.cleaned_data)
+        return super().form_valid(form)
     
-    # def _create_new_kelas(self, data):
-    #     Kelas.objects.create(name=data['name'] , coach=data['coach'] , price=data['price'])
+    
+    '''
+        _create_new_kelas Method: This is a helper method that takes the cleaned data from the form and creates a new Kelas object in the database.
+    '''
+    def _create_new_kelas(self, data):
+        Kelas.objects.create(name=data['name'] , coach=data['coach'] , price=data['price'])
+        
+        
+
+class FoodFormView(CreateView):
+    model = Food
+    fields = '__all__'
+    success_url = reverse_lazy('cbv:roott')
+    template_name='foodform.html'
