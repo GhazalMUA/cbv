@@ -1,11 +1,23 @@
 from typing import Any
-from django.http.response import HttpResponse as HttpResponse
+from django.http.response import HttpResponse as HttpResponse 
 from django.shortcuts import render
 from django.views import View 
 from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic.list import ListView
 from .models import Car,Kelas
-from django.views.generic import DetailView
+from django.views.generic import DetailView , FormView
+from .forms import KelasForm
+from django.urls import reverse_lazy
+
+
+
+
+
+def roott(request):
+    return HttpResponse('hello')
+
+
+
 '''
     class View chandta method dare mesle http_not_allowed() , setup() , dispatch() , option()     
     option() baraye neshoon dadae header hast 
@@ -116,3 +128,21 @@ class KelasDetail(DetailView):
     pk_url_kwarg = "pk"
     # slug_url_kwarg = "slug"
     # pk_url_kwarg = "pk"
+
+
+
+
+
+
+
+class FormKelasView(FormView):
+    form_class = KelasForm
+    success_url=reverse_lazy('cbv:roott')
+    template_name='form.html'
+    
+    # def form_valid(self,form):
+    #     self._create_new_kelas(data=form.cleaned_data)
+    #     return super().form_valid(form)
+    
+    # def _create_new_kelas(self, data):
+    #     Kelas.objects.create(name=data['name'] , coach=data['coach'] , price=data['price'])
