@@ -1,3 +1,4 @@
 {%for food in foods%}
-    {{food.name}} {{food.cost}}  <a href="{% url 'cbv:delete_item' food.id %}">delete</a> <br>
+    <p>{{food.name}} {{food.cost}}  <a href="{% url 'cbv:delete_item' food.id %}">delete</a>
+    <a href="{% url 'cbv:update_food' food.id %}">update</a></p>
 {%endfor%}

@@ -5,7 +5,7 @@ from django.views import View
 from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic.list import ListView
 from .models import Car,Kelas,Food
-from django.views.generic import DetailView , FormView , CreateView , DeleteView
+from django.views.generic import DetailView , FormView , CreateView , DeleteView , UpdateView
 from .forms import KelasForm
 from django.urls import reverse_lazy
 
@@ -116,8 +116,6 @@ class KelasList(ListView):
     
     
     
-    
-    
 '''
     DetailView ya bar asase primery key ya bar asase dlug mire etelaato mikhone miare va faghat yedone object ro barmigardoone.
 '''    
@@ -128,10 +126,6 @@ class KelasDetail(DetailView):
     pk_url_kwarg = "pk"
     # slug_url_kwarg = "slug"
     # pk_url_kwarg = "pk"
-
-
-
-
 
 
 
@@ -165,15 +159,24 @@ class FoodFormView(CreateView):
     template_name='foodform.html'
     
     
+    
 class FoodListView(ListView):
         queryset=Food.objects.all()
         template_name='foodlist.html'
         context_object_name='foods'
     
-    
-    
+
     
 class DeleteFoodView(DeleteView):
     model = Food
     success_url=reverse_lazy('cbv:food_list')
     template_name='confirmdelete.html'
+    
+    
+ 
+ 
+class UpdateFoodView(UpdateView):
+    model = Food
+    fields='__all__'
+    success_url = reverse_lazy('cbv:food_list')
+    template_name='foodupdate.html'

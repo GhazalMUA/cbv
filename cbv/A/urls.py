@@ -12,4 +12,5 @@ urlpatterns = [
     path('createfoodform/',views.FoodFormView.as_view()),
     path('foodlist/' , views.FoodListView.as_view() , name='food_list'),
     path('delete_food_item/<int:pk>/' , views.DeleteFoodView.as_view() , name='delete_item'),
+    path('updatefood/<int:pk>/', views.UpdateFoodView.as_view() , name='update_food')
 ]
