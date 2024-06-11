@@ -5,7 +5,7 @@ from django.views import View
 from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic.list import ListView
 from .models import Car,Kelas,Food
-from django.views.generic import DetailView , FormView , CreateView
+from django.views.generic import DetailView , FormView , CreateView , DeleteView
 from .forms import KelasForm
 from django.urls import reverse_lazy
 
@@ -161,5 +161,19 @@ class FormKelasView(FormView):
 class FoodFormView(CreateView):
     model = Food
     fields = '__all__'
-    success_url = reverse_lazy('cbv:roott')
+    success_url = reverse_lazy('cbv:food_list')
     template_name='foodform.html'
+    
+    
+class FoodListView(ListView):
+        queryset=Food.objects.all()
+        template_name='foodlist.html'
+        context_object_name='foods'
+    
+    
+    
+    
+class DeleteFoodView(DeleteView):
+    model = Food
+    success_url=reverse_lazy('cbv:food_list')
+    template_name='confirmdelete.html'
