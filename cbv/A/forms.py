@@ -1,6 +1,6 @@
 from django import forms
-from .models import Kelas
-
+from .models import Kelas , Karbar
+from django.contrib.auth.forms import AuthenticationForm
 class KelasForm(forms.ModelForm):
     
     class Meta:
@@ -19,3 +19,6 @@ class KelasForm(forms.ModelForm):
             raise ValueError('price cannot be zero.')
         return price
         
+        
+class LoginForm(AuthenticationForm):
+    phone_number=forms.CharField(max_length=11)

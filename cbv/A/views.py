@@ -6,10 +6,14 @@ from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic.list import ListView
 from .models import Car,Kelas,Food
 from django.views.generic import DetailView , FormView , CreateView , DeleteView , UpdateView
-from .forms import KelasForm
+from .forms import KelasForm , LoginForm
 from django.urls import reverse_lazy
-
-
+#baraye import LoginView bayad khater zir ro
+# benevism va az tooo dele on loginview ro
+# darbiarim faghat vase inke dota view 
+# ghati nashan y esm behesh midim mesle
+# auth_view inonkhodam entekhab kardam
+from django.contrib.auth import views as auth_view
 
 
 
@@ -35,7 +39,8 @@ def roott(request):
             return response
     
     
-    hala ag bkhaym method option ro custom konim masalan b headers hash item ezafe konimm bayad method option ro override bokonim
+    hala ag bkhaym method option ro custom konim masalan b headers hash
+    item ezafe konimm bayad method option ro override bokonim
 '''
 
 
@@ -51,7 +56,10 @@ class ghazal(View):
         return response
     
     
-    #method http_method_not_allowed() zamani ejra mishe k on method ro ma behesh dastresi nadade bashim vali darkhast behesh ersal shode besorate default code sh ine:
+    #method http_method_not_allowed() zamani ejra mishe
+    # k on method ro ma behesh dastresi nadade bashim
+    # vali darkhast behesh ersal shode besorate default code sh ine:
+    
         """
             def http_method_not_allowed(self, request, *args, **kwargs):
         logger.warning(
@@ -64,7 +72,10 @@ class ghazal(View):
         """
     #ma mitoonim hartori k khastim custom esh konim
     def http_method_not_allowed(self, request, *args, **kwargs):
-        return render(request,'method_not_allowed.html')        #alan ag runserver bokoni va beri too root mibini chon ba method get rafti behet on html custom shodeye khodfero neshoon mide 
+        return render(request,'method_not_allowed.html')        #alan ag runserver bokoni va
+                                                                #beri too root mibini chon ba
+                                                                # method get rafti behet on html 
+                                                                # custom shodeye khodfero neshoon mide 
     
 '''
     templateview miad khieli sade b karbar template neshon mide va ag niaz bashe bvasash context ham ersal mikone
@@ -81,16 +92,27 @@ class ghazal(View):
 class Home(TemplateView):
     template_name='home.html'       #age kheili sade faghat mikhayd safeye html i neshon bedid az yek khat kod faghat estefade konid.
    
-    ''' age khasti context ersal koni bayad az ye method estefade koni k tooye dele khode in templateview vojod dare 
-        be esme    get_context_data()     bayad override beshe, behesh meghdar ezafe mikonim va dar akahar ham return esh mikonikm
+    ''' age khasti context ersal koni bayad az ye method estefade koni ke
+        tooye dele khode in templateview vojod dare 
+        be esme    get_context_data()     bayad override beshe, behesh meghdar
+        ezafe mikonim va dar akahar ham return esh mikonikm
+        
+        
         def get_context_data(self, **kwargs):
         kwargs.setdefault("view", self)
         if self.extra_context is not None:
             kwargs.update(self.extra_context)
         return kwargs
     '''
+    
     def get_context_data(self, **kwargs: Any):
-        context = super().get_context_data(**kwargs)  # esme moteghayere context ro khodemon entekhab kardim . miaym toosh chi mirizim? hameye chizai k tooye class vaaled anjam shode bod ro mirizim tooye context, bad behesh y item jadid ezazfe mikonim  b esme `cars` ke mikhaym in cars hameye  etelaate modele car ro beehmon neshon bede va dar akhar ham on context ro return mikonim.
+        context = super().get_context_data(**kwargs)  # esme moteghayere context ro khodemon
+                                                      # entekhab kardim . miaym toosh chi mirizim? 
+                                                      # hameye chizai k tooye class vaaled anjam shode
+                                                      # bod ro mirizim tooye context, bad behesh y 
+                                                      # item jadid ezazfe mikonim  b esme `cars` ke mikhaym 
+                                                      # in cars hameye  etelaate modele car ro beehmon neshon 
+                                                      # bede va dar akhar ham on context ro return mikonim.
         context['cars'] = Car.objects.all()
         return context
     
@@ -98,10 +120,12 @@ class Home(TemplateView):
 
 
 
-#inja in class ro be url two vasl kardam. vaghti rooye barname mirim be url two, redirect mishe be safeye gooogle.com    
+#inja in class ro be url two vasl kardam. vaghti rooye barname mirim be url two, 
+# redirect mishe be safeye gooogle.com    
 class Two(RedirectView):
     url = 'https://google.com'
-#age bekhaym az namespaceha estefade konim bayad az patterm_name estefade konim bejaye line bala; intori    pattern_name='home:home'
+#age bekhaym az namespaceha estefade konim bayad az patterm_name
+#estefade konim bejaye line bala; intori    pattern_name='home:home'
     
     
     
@@ -117,7 +141,8 @@ class KelasList(ListView):
     
     
 '''
-    DetailView ya bar asase primery key ya bar asase dlug mire etelaato mikhone miare va faghat yedone object ro barmigardoone.
+    DetailView ya bar asase primery key ya bar asase dlug mire 
+    etelaato mikhone miare va faghat yedone object ro barmigardoone.
 '''    
 class KelasDetail(DetailView):  
     model=Kelas
@@ -135,9 +160,12 @@ class FormKelasView(FormView):
     template_name='form.html'
     
     '''
-        form_valid Method: This method is called when the submitted form is valid (i.e., it has passed all validations).
-        Inside this method, self._create_new_kelas(data=form.cleaned_data) is called to create a new Kelas object with the cleaned data from the form.
-        After creating the new Kelas object, it calls the parent class’s form_valid method to handle the standard behavior (like redirecting to the success URL).
+        form_valid Method: This method is called when the submitted form is valid
+        (i.e., it has passed all validations).
+        Inside this method, self._create_new_kelas(data=form.cleaned_data) 
+        is called to create a new Kelas object with the cleaned data from the form.
+        After creating the new Kelas object, it calls the parent class’s 
+        form_valid method to handle the standard behavior (like redirecting to the success URL).
     '''
     def form_valid(self,form):
         self._create_new_kelas(data=form.cleaned_data)
@@ -145,7 +173,8 @@ class FormKelasView(FormView):
     
     
     '''
-        _create_new_kelas Method: This is a helper method that takes the cleaned data from the form and creates a new Kelas object in the database.
+        _create_new_kelas Method: This is a helper method that takes the cleaned data 
+        from the form and creates a new Kelas object in the database.
     '''
     def _create_new_kelas(self, data):
         Kelas.objects.create(name=data['name'] , coach=data['coach'] , price=data['price'])
@@ -176,7 +205,22 @@ class DeleteFoodView(DeleteView):
  
  
 class UpdateFoodView(UpdateView):
+    '''
+        bayad ye template_name= dashte bashi ke hatamn mesle
+        hamini k inja hast bashe a in babat ke, UpdateView ye 
+        form ro dare tooye background handle mikone; bayad on
+        form be html ferestade beshe ke etelaat dfakhelehse 
+        k btoonim update esh konim
+    '''
+    
     model = Food
     fields='__all__'
     success_url = reverse_lazy('cbv:food_list')
     template_name='foodupdate.html'
+    
+    
+        
+class LoginView(auth_view.LoginView):
+    authentication_form=LoginForm
+    template_name='login.html' 
+    redirect_authenticated_user=reverse_lazy('cbv:roott')
