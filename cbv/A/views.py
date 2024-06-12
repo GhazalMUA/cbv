@@ -14,7 +14,8 @@ from django.urls import reverse_lazy
 # ghati nashan y esm behesh midim mesle
 # auth_view inonkhodam entekhab kardam
 from django.contrib.auth import views as auth_view
-
+from rest_framework.generics import ListAPIView,RetrieveAPIView
+from .serializers import FoodSerializer
 
 
 def roott(request):
@@ -224,3 +225,48 @@ class LoginView(auth_view.LoginView):
     authentication_form=LoginForm
     template_name='login.html' 
     redirect_authenticated_user=reverse_lazy('cbv:roott')
+    
+    
+    
+    
+    
+class UserLogoutView(auth_view.LogoutView):
+    next_page = reverse_lazy('cbv:roott')    
+#fght hmin next_page niaze k bbinii b koja gharare redirect bshe, baghie chizaro khodesh handle mikone    
+    
+    
+    
+    
+    
+    
+'''
+    listapiview kheili sade ast bhsh query k mikhay
+    ro midi va bht  list etelaateto json barmigardone 
+    fght hatman bayad queryset va serializer class ro 
+    bhsh dade bashi
+'''     
+class FoodListAPIView(ListAPIView):
+    queryset = Food.objects.all()
+    serializer_class = FoodSerializer
+
+
+
+
+
+'''
+    in hm daghighan mesle listapiview hastesh vali faghat yedone 
+    item ro show mikone. ke on ydone item ham bayad ya primary 
+    key sh az too url biad vaseseye in view ya bayad yeki az field
+    hash biad mesle name esh ya harchize digeish bsorate default 
+    bayad url esh '<int:pk>' in ro toosh dashte bashe va in class 
+    inja khodesh handle mikone chon bsorate default vasash in tarif 
+    shode va asln niazi b neveshtanesh nist  (lookup_field = 'pk') vali 
+    agkhasti masalan name ro befresti az tarighe url k etelaate on object 
+    ro fght bbini, bayad tooye url et ino dashte bashii '<str:name>' va oon
+    moghe inja ham ye parameter bayad bzari (ookup_field = 'name')
+'''
+class FoodItemAPIView(RetrieveAPIView):      #shows just a single food
+    queryset = Food.objects.all()
+    serializer_class = FoodSerializer
+    lookup_field='name'
+    
